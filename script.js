@@ -54,7 +54,72 @@ const gameBoard = (function () {
     }
 })();
 
+const createPlayer = function (mark) {
+    const playerMark = mark;
 
+    return {
+        getPlayerMark: () => { 
+            return playerMark
+        },
+        promptPlayer: () => {
+            let row = prompt("Enter a Row (0, 1, or 2)");
+            let col = prompt("Enter a Column (0, 1, or 2)");
+            return {
+                row,
+                col
+            };
+        }
+    }
+};
+
+const gameFlow = (function () {
+    // create our players
+    const player1 = createPlayer("X");
+    const player2 = createPlayer("O");
+
+    // grab a reference to the board array
+    const board = gameBoard.getBoard();
+
+    // declare turns var and activePlayer var
+    let turn = 1;
+    let activePlayer = player1;
+
+    // start game loop
+    while (turn < 5) {
+
+        // loop until a valid location is found. then place mark
+        while (true) {
+            // prompt player for location
+            let { row, col } = activePlayer.promptPlayer();
+
+            // verify the location is valid (empty)
+            if (gameBoard.isValidLocation(row, col)) {
+
+                // if location is valid
+                // log(`${row}, ${col}, ${activePlayer.getPlayerMark()}`);
+                gameBoard.placeMark(row, col, activePlayer.getPlayerMark());
+
+                break;
+            }
+            log("error: this location is not valid");
+        }
+        turn++;
+        if (player1 === activePlayer) {
+            activePlayer = player2;
+        } else {
+            activePlayer = player1;
+        }
+
+        // print the board
+        gameBoard.printBoard();
+
+        // if (gameBoard.checkWinner(activePlayer.mark)) {
+        //     break;
+        // }
+    }
+
+    log(`Congrats! ${activePlayer} wins!`)
+})();
 
 
 // game flow
