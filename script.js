@@ -44,7 +44,7 @@ const gameBoard = (function () {
             // 1 2 3
             // 4 5 6
             // 7 8 9
-            
+
             // (1-2-3), (1-4-7), (1-5-9) win checks
             if (board[0][0] === mark) { // 1
                 if (board[0][1] === mark) { // 2
@@ -178,6 +178,11 @@ const gameFlow = (function () {
         // advance turn
         turn++;
 
+        // check for tie game
+        if (turn >= 10) {
+            break;
+        }
+
         // check for winner (only checks top row X X X for now)f
         if (gameBoard.checkWinner(activePlayer.getPlayerMark())) {
             break;
@@ -191,7 +196,12 @@ const gameFlow = (function () {
         }
     }
 
-    log(`Congrats! Player ${(turn % 2 ) + 1} (${activePlayer.getPlayerMark()}) wins!`);
+    if (turn >= 10) {
+        log("Tie Game!")
+    } else {
+        log(`Congrats! Player ${(turn % 2) + 1} (${activePlayer.getPlayerMark()}) wins!`);
+    }
+
 })();
 
 
