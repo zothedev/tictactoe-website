@@ -29,7 +29,7 @@ const gameBoard = (function () {
             }
         },
         getBoard: function () {
-            return board;
+            return board
         },
         placeMark: (row, col, mark) => { board[row][col] = mark },
         isValidLocation: (row, col) => {
@@ -39,18 +39,74 @@ const gameBoard = (function () {
             }
             return false;
         },
-        // checkWinner: function (mark) {
-        //     // simply checks for
-        //     // X X X
-        //     // _ _ _
-        //     // _ _ _
-        //     for (let cell of board[0]) {
-        //         if (cell !== mark) {
-        //             return false;
-        //         }
-        //     }
-        //     return true;
-        // }
+        checkWinner: function (mark) {
+
+            // 1 2 3
+            // 4 5 6
+            // 7 8 9
+            
+            // (1-2-3), (1-4-7), (1-5-9) win checks
+            if (board[0][0] === mark) { // 1
+                if (board[0][1] === mark) { // 2
+                    if (board[0][2] === mark) { // 3
+                        return true;
+                    }
+
+                }
+                if (board[1][0] === mark) { // 4
+                    if (board[2][0] === mark) { // 7
+                        return true;
+                    }
+                }
+                if (board[1][1] === mark) { // 5
+                    if (board[2][2] === mark) { // 9
+                        return true;
+                    }
+                }
+            }
+
+            // (2-5-8) win check
+            if (board[0][1] === mark) { // 2
+                if (board[1][1] === mark) { // 5
+                    if (board[2][1] === mark) { // 8
+                        return true;
+                    }
+                }
+            }
+
+            // (4-5-6) win check
+            if (board[0][1] === mark) { // 2
+                if (board[1][1] === mark) { // 5
+                    if (board[2][1] === mark) { // 8
+                        return true;
+                    }
+                }
+            }
+
+            // (3-5-7), (3,6,9) win checks
+            if (board[0][2] === mark) { // 3
+                if (board[1][1] === mark) { // 5
+                    if (board[2][0] === mark) { // 7
+                        return true;
+                    }
+                }
+                if (board[1][2] === mark) { // 6
+                    if (board[2][2] === mark) { // 9
+                        return true;
+                    }
+                }
+            }
+
+            // (7-8-9) win check
+            if (board[2][0] === mark) { // 7
+                if (board[2][1] === mark) { // 8
+                    if (board[2][2] === mark) { // 9
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 })();
 
@@ -58,16 +114,32 @@ const createPlayer = function (mark) {
     const playerMark = mark;
 
     return {
-        getPlayerMark: () => { 
+        getPlayerMark: () => {
             return playerMark
         },
         promptPlayer: () => {
-            let row = prompt("Enter a Row (0, 1, or 2)");
-            let col = prompt("Enter a Column (0, 1, or 2)");
-            return {
-                row,
-                col
-            };
+            let cellID = prompt(`Choose a Box: \n 1  2  3\n 4  5  6\n 7  8  9`);
+            // convert cellID into coordinates
+            switch (cellID) {
+                case "1":
+                    return [0, 0];
+                case "2":
+                    return [0, 1];
+                case "3":
+                    return [0, 2];
+                case "4":
+                    return [1, 0];
+                case "5":
+                    return [1, 1];
+                case "6":
+                    return [1, 2];
+                case "7":
+                    return [2, 0];
+                case "8":
+                    return [2, 1];
+                case "9":
+                    return [2, 2];
+            }
         }
     }
 };
@@ -77,48 +149,49 @@ const gameFlow = (function () {
     const player1 = createPlayer("X");
     const player2 = createPlayer("O");
 
-    // grab a reference to the board array
-    const board = gameBoard.getBoard();
-
     // declare turns var and activePlayer var
     let turn = 1;
     let activePlayer = player1;
 
     // start game loop
-    while (turn < 5) {
+    while (true) {
 
         // loop until a valid location is found. then place mark
         while (true) {
             // prompt player for location
-            let { row, col } = activePlayer.promptPlayer();
+            let [row, col] = activePlayer.promptPlayer();
 
             // verify the location is valid (empty)
             if (gameBoard.isValidLocation(row, col)) {
 
-                // if location is valid
-                // log(`${row}, ${col}, ${activePlayer.getPlayerMark()}`);
+                // place mark on valid location
                 gameBoard.placeMark(row, col, activePlayer.getPlayerMark());
 
-                break;
+                break; // exit valid location loop
             }
             log("error: this location is not valid");
-        }
-        turn++;
-        if (player1 === activePlayer) {
-            activePlayer = player2;
-        } else {
-            activePlayer = player1;
         }
 
         // print the board
         gameBoard.printBoard();
 
-        // if (gameBoard.checkWinner(activePlayer.mark)) {
-        //     break;
-        // }
+        // advance turn
+        turn++;
+
+        // check for winner (only checks top row X X X for now)f
+        if (gameBoard.checkWinner(activePlayer.getPlayerMark())) {
+            break;
+        }
+
+        // swap active player
+        if (player1 === activePlayer) {
+            activePlayer = player2;
+        } else {
+            activePlayer = player1;
+        }
     }
 
-    log(`Congrats! ${activePlayer} wins!`)
+    log(`Congrats! Player ${(turn % 2 ) + 1} (${activePlayer.getPlayerMark()}) wins!`);
 })();
 
 
