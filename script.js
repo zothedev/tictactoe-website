@@ -110,12 +110,15 @@ const gameBoard = (function () {
     }
 })();
 
-const createPlayer = function (mark) {
+const createPlayer = function (mark, num) {
     const playerMark = mark;
-
+    const playerName = num;
     return {
         getPlayerMark: () => {
             return playerMark
+        },
+        getPlayerName: () => {
+            return playerName;
         },
         promptPlayer: () => {
             let cellID = prompt(`Choose a Box: \n 1  2  3\n 4  5  6\n 7  8  9`);
@@ -146,8 +149,8 @@ const createPlayer = function (mark) {
 
 const gameFlow = (function () {
     // create our players
-    const player1 = createPlayer("X");
-    const player2 = createPlayer("O");
+    const player1 = createPlayer("X", "zo");
+    const player2 = createPlayer("O", "caz");
 
     // declare turns var and activePlayer var
     let turn = 1;
@@ -175,18 +178,24 @@ const gameFlow = (function () {
         // print the board
         gameBoard.printBoard();
 
-        // advance turn
-        turn++;
+        
 
-        // check for tie game
-        if (turn >= 10) {
-            break;
-        }
-
-        // check for winner (only checks top row X X X for now)f
+        // check for winning pattern
         if (gameBoard.checkWinner(activePlayer.getPlayerMark())) {
             break;
         }
+
+        // check for tie game
+        if (turn >= 9) {
+            break;
+        }
+
+        // advance turn
+        turn++;
+
+        
+
+        
 
         // swap active player
         if (player1 === activePlayer) {
@@ -196,22 +205,11 @@ const gameFlow = (function () {
         }
     }
 
-    if (turn >= 10) {
+    if (turn >= 9) {
         log("Tie Game!")
     } else {
-        log(`Congrats! Player ${(turn % 2) + 1} (${activePlayer.getPlayerMark()}) wins!`);
+        log(`Congrats! ${activePlayer.getPlayerName()} wins!`);
     }
 
 })();
 
-
-// game flow
-// 1. create board
-// 2. create players
-// 3. assign player1 as active
-// 4. player1 placeMark()
-// 5. assign player2 as active
-// 6. player2 placeMark()
-// repeat
-// 7. define method in gameFlow object that checks for a win after each placeMark()
-// on win, display message and have option to play again
