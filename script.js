@@ -147,6 +147,40 @@ const createPlayer = function (mark, num) {
     }
 };
 
+const displayController = (function () {
+
+    return {
+        renderBoard: () => {
+
+            // select a reference to the html element
+            // housing the board
+            const boardContainer = document.querySelector(".board");
+            // select a reference to our board array
+            const board = gameBoard.getBoard();
+
+            boardContainer.textContent = "";
+            let rowContainer = "";
+
+
+            // loop through the board array and display the content
+            // of each cell
+            for (let row of board) {
+                // create row container
+                rowContainer = document.createElement("div");
+                // loop thru each row
+                for (let cell of row) {
+                    let cellContainer = document.createElement("div");
+                    cellContainer.textContent = cell;
+                    rowContainer.appendChild(cellContainer);
+                }
+                boardContainer.appendChild(rowContainer);
+
+            }
+
+        }
+    }
+})();
+
 const gameFlow = (function () {
     // create our players
     const player1 = createPlayer("X", "zo");
@@ -159,32 +193,27 @@ const gameFlow = (function () {
     // start game loop
     while (true) {
 
-        // loop until a valid location is found. then place mark
-        while (true) {
-            // prompt player for location
-            let [row, col] = activePlayer.promptPlayer();
+        // prompt player for a cell
+        let [row, col] = activePlayer.promptPlayer();
 
-            // verify the location is valid (empty)
-            if (gameBoard.isValidLocation(row, col)) {
-
-                // place mark on valid location
-                gameBoard.placeMark(row, col, activePlayer.getPlayerMark());
-
-                break; // exit valid location loop
-            }
-            log("error: this location is not valid");
-        }
+        // place activePlayer's mark on given cell
+        gameBoard.placeMark(row, col, activePlayer.getPlayerMark());
 
         // print the board
         gameBoard.printBoard();
+
+        // render the board on screen
+        // displayController.renderBoard();
 
         // check for winning pattern
         if (gameBoard.checkWinner(activePlayer.getPlayerMark())) {
             break;
         }
+        log(`current turn: ${turn}`)
 
         // check for tie game
         if (turn >= 9) {
+            turn++;
             break;
         }
 
@@ -199,20 +228,11 @@ const gameFlow = (function () {
         }
     }
 
-    if (turn >= 9) {
+    if (turn >= 10) {
         log("Tie Game!")
     } else {
         log(`Congrats! ${activePlayer.getPlayerName()} wins!`);
     }
 
-})();
-
-const displayController = (function () {
-
-    return {
-        renderBoard: () => {
-            
-        }
-    }
 })();
 
