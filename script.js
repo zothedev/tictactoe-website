@@ -149,36 +149,25 @@ const createPlayer = function (mark, num) {
 
 const displayController = (function () {
 
-    return {
-        renderBoard: () => {
+    // grab a reference to the first row
+    const row1 = document.querySelector(".row:first-of-type");
 
-            // // select a reference to the html element
-            // // housing the board
-            // const boardContainer = document.querySelector(".board");
-            // // select a reference to our board array
-            // const board = gameBoard.getBoard();
-
-            // boardContainer.textContent = "";
-            // let rowContainer = "";
-
-
-            // loop through the board array and display the content
-            // of each cell
-            // for (let row of board) {
-            //     // create row container
-            //     rowContainer = document.createElement("div");
-            //     rowContainer.classList.add("row");
-            //     // loop thru each row
-            //     for (let cell of row) {
-            //         let cellContainer = document.createElement("button");
-            //         cellContainer.textContent = cell;
-            //         rowContainer.appendChild(cellContainer);
-            //     }
-            //     boardContainer.appendChild(rowContainer);
-
-            // }
-
+    row1.addEventListener("click", (event) => {
+        let target = event.target;
+        if (target.classList.contains("cell1")) {
+            log(gameFlow.getActivePlayer().getPlayerMark());
+            gameBoard.getBoard()[0][0] = gameFlow.getActivePlayer().getPlayerMark();
         }
+
+        gameBoard.printBoard();
+    });
+    return {
+        // renderBoard: () => {
+
+
+        // }
+
+
     }
 })();
 
@@ -192,33 +181,33 @@ const gameFlow = (function () {
     let activePlayer = player1;
 
     // start game loop
-    while (true) {
+    // while (true) {
 
         // testing only
-       let x = [0,1,2,0,0,2,1,2,1];
-       let y = [0,1,0,2,1,2,2,1,0];
+        // let x = [0, 1, 2, 0, 0, 2, 1, 2, 1];
+        // let y = [0, 1, 0, 2, 1, 2, 2, 1, 0];
 
 
         // place activePlayer's mark on given cell
-        gameBoard.placeMark(x[turn-1], y[turn-1], activePlayer.getPlayerMark());
+        // gameBoard.placeMark(x[turn - 1], y[turn - 1], activePlayer.getPlayerMark());
 
         // print the board
-        gameBoard.printBoard();
+        // gameBoard.printBoard();
 
         // render the board on screen
-        displayController.renderBoard();
+        // displayController.renderBoard();
 
         // check for winning pattern
         if (gameBoard.checkWinner(activePlayer.getPlayerMark())) {
-            break;
+            log("winner found);
         }
-        log(`current turn: ${turn}`)
+        // log(`current turn: ${turn}`)
 
         // check for tie game
-        if (turn >= 9) {
-            turn++;
-            break;
-        }
+        // if (turn >= 9) {
+        //     turn++;
+        //     break;
+        // }
 
         // advance turn
         turn++;
@@ -229,7 +218,7 @@ const gameFlow = (function () {
         } else {
             activePlayer = player1;
         }
-    }
+    // }
 
     if (turn >= 10) {
         log("Tie Game!")
@@ -237,5 +226,13 @@ const gameFlow = (function () {
         log(`Congrats! ${activePlayer.getPlayerName()} wins!`);
     }
 
+    return {
+        getActivePlayer: () => {
+            return activePlayer;
+        }
+    }
+
 })();
+
+
 
