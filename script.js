@@ -152,30 +152,31 @@ const displayController = (function () {
     return {
         renderBoard: () => {
 
-            // select a reference to the html element
-            // housing the board
-            const boardContainer = document.querySelector(".board");
-            // select a reference to our board array
-            const board = gameBoard.getBoard();
+            // // select a reference to the html element
+            // // housing the board
+            // const boardContainer = document.querySelector(".board");
+            // // select a reference to our board array
+            // const board = gameBoard.getBoard();
 
-            boardContainer.textContent = "";
-            let rowContainer = "";
+            // boardContainer.textContent = "";
+            // let rowContainer = "";
 
 
             // loop through the board array and display the content
             // of each cell
-            for (let row of board) {
-                // create row container
-                rowContainer = document.createElement("div");
-                // loop thru each row
-                for (let cell of row) {
-                    let cellContainer = document.createElement("div");
-                    cellContainer.textContent = cell;
-                    rowContainer.appendChild(cellContainer);
-                }
-                boardContainer.appendChild(rowContainer);
+            // for (let row of board) {
+            //     // create row container
+            //     rowContainer = document.createElement("div");
+            //     rowContainer.classList.add("row");
+            //     // loop thru each row
+            //     for (let cell of row) {
+            //         let cellContainer = document.createElement("button");
+            //         cellContainer.textContent = cell;
+            //         rowContainer.appendChild(cellContainer);
+            //     }
+            //     boardContainer.appendChild(rowContainer);
 
-            }
+            // }
 
         }
     }
@@ -193,17 +194,19 @@ const gameFlow = (function () {
     // start game loop
     while (true) {
 
-        // prompt player for a cell
-        let [row, col] = activePlayer.promptPlayer();
+        // testing only
+       let x = [0,1,2,0,0,2,1,2,1];
+       let y = [0,1,0,2,1,2,2,1,0];
+
 
         // place activePlayer's mark on given cell
-        gameBoard.placeMark(row, col, activePlayer.getPlayerMark());
+        gameBoard.placeMark(x[turn-1], y[turn-1], activePlayer.getPlayerMark());
 
         // print the board
         gameBoard.printBoard();
 
         // render the board on screen
-        // displayController.renderBoard();
+        displayController.renderBoard();
 
         // check for winning pattern
         if (gameBoard.checkWinner(activePlayer.getPlayerMark())) {
