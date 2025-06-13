@@ -178,8 +178,6 @@ const gameFlow = (function () {
         // print the board
         gameBoard.printBoard();
 
-        
-
         // check for winning pattern
         if (gameBoard.checkWinner(activePlayer.getPlayerMark())) {
             break;
@@ -192,10 +190,6 @@ const gameFlow = (function () {
 
         // advance turn
         turn++;
-
-        
-
-        
 
         // swap active player
         if (player1 === activePlayer) {
@@ -211,5 +205,14 @@ const gameFlow = (function () {
         log(`Congrats! ${activePlayer.getPlayerName()} wins!`);
     }
 
+})();
+
+const displayController = (function () {
+
+    return {
+        renderBoard: () => {
+            
+        }
+    }
 })();
 
