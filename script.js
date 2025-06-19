@@ -16,6 +16,30 @@ const gameBoard = (function () {
         }
     }
 
+    function convertCell(cell) {
+            // convert cellID into coordinates
+            switch (String(cell)) {
+                case "1":
+                    return [0, 0];
+                case "2":
+                    return [0, 1];
+                case "3":
+                    return [0, 2];
+                case "4":
+                    return [1, 0];
+                case "5":
+                    return [1, 1];
+                case "6":
+                    return [1, 2];
+                case "7":
+                    return [2, 0];
+                case "8":
+                    return [2, 1];
+                case "9":
+                    return [2, 2];
+            }
+        }
+
     // public methods
     return {
         printBoard: function () {
@@ -30,10 +54,16 @@ const gameBoard = (function () {
         },
         getBoard: function () {
             return board
+        }, 
+        placeMark: (cell, mark) => { 
+            const [row, col] = convertCell(cell);
+            // log(row);
+            // log(col);
+            board[row][col] = mark;
         },
-        placeMark: (row, col, mark) => { board[row][col] = mark },
-        isValidLocation: (row, col) => {
+        isValidLocation: (cell) => {
             // if the provided cell is empty,
+            const [row, col] = convertCell(cell);
             if (board[row][col] === "_") {
                 return true;
             }
@@ -110,68 +140,35 @@ const gameBoard = (function () {
     }
 })();
 
-const createPlayer = function (mark, num) {
+const createPlayer = function (mark, name) {
     const playerMark = mark;
-    const playerName = num;
+    const playerName = name;
     return {
-        getPlayerMark: () => {
-            return playerMark
+        getMark: () => {
+            return playerMark;
         },
-        getPlayerName: () => {
+        getName: () => {
             return playerName;
         },
-        promptPlayer: () => {
-            let cellID = prompt(`Choose a Box: \n 1  2  3\n 4  5  6\n 7  8  9`);
-            // convert cellID into coordinates
-            switch (cellID) {
-                case "1":
-                    return [0, 0];
-                case "2":
-                    return [0, 1];
-                case "3":
-                    return [0, 2];
-                case "4":
-                    return [1, 0];
-                case "5":
-                    return [1, 1];
-                case "6":
-                    return [1, 2];
-                case "7":
-                    return [2, 0];
-                case "8":
-                    return [2, 1];
-                case "9":
-                    return [2, 2];
-            }
-        }
     }
 };
 
-const displayController = (function () {
-
-    // grab a reference to the first row
-    const row1 = document.querySelector(".row:first-of-type");
-
-    row1.addEventListener("click", (event) => {
-        let target = event.target;
-        if (target.classList.contains("cell1")) {
-            log(gameFlow.getActivePlayer().getPlayerMark());
-            gameBoard.getBoard()[0][0] = gameFlow.getActivePlayer().getPlayerMark();
-        }
-
-        gameBoard.printBoard();
-    });
-    return {
-        // renderBoard: () => {
-
-
-        // }
-
-
-    }
-})();
-
 const gameFlow = (function () {
+
+    // private methods
+    function displayWinner(name) {
+        log(`${name} has won the match in ${turn} turns!`);
+    }
+
+    function displayTie() {
+        log(`The match between ${player1.getName()} and ${player2.getName()} has ended in a tie!`);
+    }
+
+    // testing only
+    let moves = [1, 3, 5, 2, 4, 7, 6, 8, 9]; 
+    // testing only
+    let i = 0;
+
     // create our players
     const player1 = createPlayer("X", "zo");
     const player2 = createPlayer("O", "caz");
@@ -180,56 +177,39 @@ const gameFlow = (function () {
     let turn = 1;
     let activePlayer = player1;
 
-    // start game loop
-    // while (true) {
+    while (true) {
 
-        // testing only
-        // let x = [0, 1, 2, 0, 0, 2, 1, 2, 1];
-        // let y = [0, 1, 0, 2, 1, 2, 2, 1, 0];
+        gameBoard.placeMark(moves[i], activePlayer.getMark());
 
+        // print board to console
+        gameBoard.printBoard();
 
-        // place activePlayer's mark on given cell
-        // gameBoard.placeMark(x[turn - 1], y[turn - 1], activePlayer.getPlayerMark());
-
-        // print the board
-        // gameBoard.printBoard();
-
-        // render the board on screen
-        // displayController.renderBoard();
-
-        // check for winning pattern
-        if (gameBoard.checkWinner(activePlayer.getPlayerMark())) {
-            log("winner found);
+        // check for a winner
+        if (gameBoard.checkWinner(activePlayer.getMark())) {
+            displayWinner(activePlayer.getName());
+            break;
+        // check for a tie
+        } else if (turn >= 9) {
+            displayTie();
+            break;
         }
-        // log(`current turn: ${turn}`)
 
-        // check for tie game
-        // if (turn >= 9) {
-        //     turn++;
-        //     break;
-        // }
-
-        // advance turn
         turn++;
+        i++ // testing only
 
-        // swap active player
-        if (player1 === activePlayer) {
+        // swap active players
+        if (activePlayer === player1) {
             activePlayer = player2;
         } else {
             activePlayer = player1;
         }
-    // }
-
-    if (turn >= 10) {
-        log("Tie Game!")
-    } else {
-        log(`Congrats! ${activePlayer.getPlayerName()} wins!`);
     }
+    
 
     return {
         getActivePlayer: () => {
             return activePlayer;
-        }
+        },
     }
 
 })();
