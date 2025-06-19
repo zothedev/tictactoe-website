@@ -165,7 +165,7 @@ const gameFlow = (function () {
     }
 
     // testing only
-    let moves = [1, 3, 5, 2, 4, 7, 6, 8, 9]; 
+    let moves = [1, 3, 5, 2, 4, 7, 6, 8, 9]; // turn 9 win by player1
     // testing only
     let i = 0;
 
@@ -179,7 +179,9 @@ const gameFlow = (function () {
 
     while (true) {
 
+        // place the mark
         gameBoard.placeMark(moves[i], activePlayer.getMark());
+
 
         // print board to console
         gameBoard.printBoard();
@@ -213,6 +215,19 @@ const gameFlow = (function () {
     }
 
 })();
+
+const displayController = function () {
+
+    // select the board from the dom
+    const boardContainer = document.querySelector('.board');
+
+    // board container event listener listens for clicks
+    boardContainer.addEventListener("click", (e) => {
+
+        const targetCellClass = e.target.classList[0];
+        log(targetCellClass);
+    });
+}
 
 
 

@@ -13,6 +13,16 @@ body {
     align-items: center;
 }
 
+/* marks */
+.x {
+    background-color: red;
+    /* background-image: url("https://www.citypng.com/public/uploads/preview/download-close-x-logo-black-icon-png-735811696860369ttmen1kmz6.png"); */
+}
+
+.o {
+    background-color: blue;
+}
+
 /* board styles */
 .board {
     width: 400px;
