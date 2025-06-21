@@ -17,28 +17,28 @@ const gameBoard = (function () {
     }
 
     function convertCell(cell) {
-            // convert cellID into coordinates
-            switch (String(cell)) {
-                case "1":
-                    return [0, 0];
-                case "2":
-                    return [0, 1];
-                case "3":
-                    return [0, 2];
-                case "4":
-                    return [1, 0];
-                case "5":
-                    return [1, 1];
-                case "6":
-                    return [1, 2];
-                case "7":
-                    return [2, 0];
-                case "8":
-                    return [2, 1];
-                case "9":
-                    return [2, 2];
-            }
+        // convert cellID into coordinates
+        switch (String(cell)) {
+            case "1":
+                return [0, 0];
+            case "2":
+                return [0, 1];
+            case "3":
+                return [0, 2];
+            case "4":
+                return [1, 0];
+            case "5":
+                return [1, 1];
+            case "6":
+                return [1, 2];
+            case "7":
+                return [2, 0];
+            case "8":
+                return [2, 1];
+            case "9":
+                return [2, 2];
         }
+    }
 
     // public methods
     return {
@@ -54,8 +54,8 @@ const gameBoard = (function () {
         },
         getBoard: function () {
             return board
-        }, 
-        placeMark: (cell, mark) => { 
+        },
+        placeMark: (cell, mark) => {
             const [row, col] = convertCell(cell);
             // log(row);
             // log(col);
@@ -165,9 +165,9 @@ const gameFlow = (function () {
     }
 
     // testing only
-    let moves = [1, 3, 5, 2, 4, 7, 6, 8, 9]; // turn 9 win by player1
+    // let moves = [1, 3, 5, 2, 4, 7, 6, 8, 9]; // turn 9 win by player1
     // testing only
-    let i = 0;
+    // let i = 0;
 
     // create our players
     const player1 = createPlayer("X", "zo");
@@ -177,46 +177,49 @@ const gameFlow = (function () {
     let turn = 1;
     let activePlayer = player1;
 
-    while (true) {
+    // while (true) {
 
-        // place the mark
-        gameBoard.placeMark(moves[i], activePlayer.getMark());
+    // place the mark
+    // gameBoard.placeMark(moves[i], activePlayer.getMark());
 
 
-        // print board to console
-        gameBoard.printBoard();
+    // print board to console
+    gameBoard.printBoard();
 
-        // check for a winner
-        if (gameBoard.checkWinner(activePlayer.getMark())) {
-            displayWinner(activePlayer.getName());
-            break;
-        // check for a tie
-        } else if (turn >= 9) {
-            displayTie();
-            break;
-        }
+    // check for a winner
+    // if (gameBoard.checkWinner(activePlayer.getMark())) {
+    //     displayWinner(activePlayer.getName());
+    //     break;
+    //     // check for a tie
+    // } else if (turn >= 9) {
+    //     displayTie();
+    //     break;
+    // }
 
-        turn++;
-        i++ // testing only
+    // i++ // testing only
 
-        // swap active players
-        if (activePlayer === player1) {
-            activePlayer = player2;
-        } else {
-            activePlayer = player1;
-        }
-    }
-    
+
+    // }
+
 
     return {
         getActivePlayer: () => {
             return activePlayer;
         },
+        swapActivePlayer: () => {
+            turn++;
+            // swap active players
+            if (activePlayer === player1) {
+                activePlayer = player2;
+            } else {
+                activePlayer = player1;
+            }
+        },
     }
 
 })();
 
-const displayController = function () {
+const displayController = (function () {
 
     // select the board from the dom
     const boardContainer = document.querySelector('.board');
@@ -224,10 +227,33 @@ const displayController = function () {
     // board container event listener listens for clicks
     boardContainer.addEventListener("click", (e) => {
 
-        const targetCellClass = e.target.classList[0];
-        log(targetCellClass);
+        const target = e.target;
+
+        // as long as the target element is one of our 9 cells...
+        if (target.classList.contains("cell")) {
+
+            // grab the first class of the element (a single number
+            // representing the cell number)
+            const targetCellClass = target.classList[0];
+
+            // if the element has a third class representing a current mark:
+            if (target.classList[2]) {
+                return;
+            }
+
+            let currentMark = gameFlow.getActivePlayer().getMark();
+
+            // place the mark
+            gameBoard.placeMark(targetCellClass, currentMark)
+            target.classList.add(currentMark);
+
+            gameBoard.printBoard();
+            gameFlow.swapActivePlayer();
+
+        }
+        // log(target);
     });
-}
+})();
 
 
 
