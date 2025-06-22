@@ -156,13 +156,7 @@ const createPlayer = function (mark, name) {
 const gameFlow = (function () {
 
     // private methods
-    function displayWinner(name) {
-        log(`${name} has won the match in ${turn} turns!`);
-    }
 
-    function displayTie() {
-        log(`The match between ${player1.getName()} and ${player2.getName()} has ended in a tie!`);
-    }
 
     // testing only
     // let moves = [1, 3, 5, 2, 4, 7, 6, 8, 9]; // turn 9 win by player1
@@ -187,14 +181,7 @@ const gameFlow = (function () {
     gameBoard.printBoard();
 
     // check for a winner
-    // if (gameBoard.checkWinner(activePlayer.getMark())) {
-    //     displayWinner(activePlayer.getName());
-    //     break;
-    //     // check for a tie
-    // } else if (turn >= 9) {
-    //     displayTie();
-    //     break;
-    // }
+
 
     // i++ // testing only
 
@@ -215,8 +202,16 @@ const gameFlow = (function () {
                 activePlayer = player1;
             }
         },
+        getTurn: () => {
+            return turn;
+        },
+        displayWinner: (name) => {
+            log(`${name} has won the match in ${turn} turns!`);
+        },
+        displayTie: () => {
+            log(`The match between ${player1.getName()} and ${player2.getName()} has ended in a tie!`);
+        }
     }
-
 })();
 
 const displayController = (function () {
@@ -245,13 +240,27 @@ const displayController = (function () {
 
             // place the mark
             gameBoard.placeMark(targetCellClass, currentMark)
+            // update the display
             target.classList.add(currentMark);
 
+            // print the board to the console
             gameBoard.printBoard();
+
+            // if a winner is found
+            if (gameBoard.checkWinner(currentMark)) {
+                gameFlow.displayWinner(gameFlow.getActivePlayer().getName());
+                return;
+            }
+            // if we've played 9 turns, trigger tie
+            if (gameFlow.getTurn() >= 9) {
+                gameFlow.displayTie();
+                return;
+            }
+            // swap active player and continue to next turn
             gameFlow.swapActivePlayer();
 
         }
-        // log(target);
+
     });
 })();
 
