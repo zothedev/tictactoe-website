@@ -155,14 +155,6 @@ const createPlayer = function (mark, name) {
 
 const gameFlow = (function () {
 
-    // private methods
-
-
-    // testing only
-    // let moves = [1, 3, 5, 2, 4, 7, 6, 8, 9]; // turn 9 win by player1
-    // testing only
-    // let i = 0;
-
     // create our players
     const player1 = createPlayer("X", "zo");
     const player2 = createPlayer("O", "caz");
@@ -170,24 +162,6 @@ const gameFlow = (function () {
     // declare turns var and activePlayer var
     let turn = 1;
     let activePlayer = player1;
-
-    // while (true) {
-
-    // place the mark
-    // gameBoard.placeMark(moves[i], activePlayer.getMark());
-
-
-    // print board to console
-    gameBoard.printBoard();
-
-    // check for a winner
-
-
-    // i++ // testing only
-
-
-    // }
-
 
     return {
         getActivePlayer: () => {
@@ -210,8 +184,48 @@ const gameFlow = (function () {
         },
         displayTie: () => {
             log(`The match between ${player1.getName()} and ${player2.getName()} has ended in a tie!`);
-        }
-    }
+        },
+        playOneTurn: (target) => {
+            // as long as the target element is one of our 9 cells...
+            if (target.classList.contains("cell")) {
+
+                // grab the first class of the element (a single number
+                // representing the cell number)
+                const targetCellClass = target.classList[0];
+
+                // if the element has a third class
+                // (meaning that the current cell is occupied)
+                if (target.classList[2]) {
+                    return; // return nothing, exit eventListener
+                }
+
+                let currentMark = gameFlow.getActivePlayer().getMark();
+
+                // place the mark
+                gameBoard.placeMark(targetCellClass, currentMark)
+                // update the display
+                target.classList.add(currentMark);
+
+                // // print the board to the console
+                // gameBoard.printBoard();
+
+                // if a winner is found
+                if (gameBoard.checkWinner(currentMark)) {
+                    gameFlow.displayWinner(gameFlow.getActivePlayer().getName());
+                    return;
+                }
+                // if we've played 9 turns, trigger tie
+                if (gameFlow.getTurn() >= 9) {
+                    gameFlow.displayTie();
+                    return;
+                }
+                // swap active player and continue to next turn
+                gameFlow.swapActivePlayer();
+                displayController.swapBoardColor();
+
+            }
+        },
+    };
 })();
 
 const displayController = (function () {
@@ -219,50 +233,30 @@ const displayController = (function () {
     // select the board from the dom
     const boardContainer = document.querySelector('.board');
 
+
+
     // board container event listener listens for clicks
     boardContainer.addEventListener("click", (e) => {
 
         const target = e.target;
 
-        // as long as the target element is one of our 9 cells...
-        if (target.classList.contains("cell")) {
+        gameFlow.playOneTurn(target);
 
-            // grab the first class of the element (a single number
-            // representing the cell number)
-            const targetCellClass = target.classList[0];
+        // swap board color
 
-            // if the element has a third class representing a current mark:
-            if (target.classList[2]) {
-                return;
-            }
-
-            let currentMark = gameFlow.getActivePlayer().getMark();
-
-            // place the mark
-            gameBoard.placeMark(targetCellClass, currentMark)
-            // update the display
-            target.classList.add(currentMark);
-
-            // print the board to the console
-            gameBoard.printBoard();
-
-            // if a winner is found
-            if (gameBoard.checkWinner(currentMark)) {
-                gameFlow.displayWinner(gameFlow.getActivePlayer().getName());
-                return;
-            }
-            // if we've played 9 turns, trigger tie
-            if (gameFlow.getTurn() >= 9) {
-                gameFlow.displayTie();
-                return;
-            }
-            // swap active player and continue to next turn
-            gameFlow.swapActivePlayer();
-
-        }
 
     });
-})();
+    return {
+        swapBoardColor: () => {
+            if (boardContainer.classList.contains('player1-board')) {
+                boardContainer.classList.replace('player1-board', 'player2-board');
+            } else {
+                boardContainer.classList.replace('player2-board', 'player1-board');
+            }
+        },
+    }
 
+
+})();
 
 
