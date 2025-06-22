@@ -140,8 +140,16 @@ const gameBoard = (function () {
 })();
 
 const displayController = (function () {
+
     // select the board from the dom
     const boardContainer = document.querySelector('.board');
+
+    // reset button
+    const startGameButton = document.querySelector('.setup');
+    startGameButton.addEventListener('click', () => {
+        gameFlow.setupGame();
+        boardContainer.classList.replace('starting-board', 'player1-board');
+    });
 
     // board container event listener listens for clicks
     boardContainer.addEventListener("click", (e) => {
@@ -190,14 +198,6 @@ const createPlayer = function (mark, name) {
 
 const gameFlow = (function () {
 
-    // private methods
-    function setupGame() {
-        // setup a new, empty board array
-        gameBoard.regenerateBoard();
-        // create the dom elements that represent our board
-        displayController.buildBoardDisplay();
-    }
-
     // create our players
     const player1 = createPlayer("X", "zo");
     const player2 = createPlayer("O", "caz");
@@ -205,9 +205,6 @@ const gameFlow = (function () {
     // declare turns var and activePlayer var
     let turn = 1;
     let activePlayer = player1;
-
-    // start game loop
-    setupGame();
 
     return {
         getActivePlayer: () => {
@@ -271,6 +268,13 @@ const gameFlow = (function () {
 
             }
         },
+        setupGame: () => {
+            // setup a new, empty board array
+            gameBoard.regenerateBoard();
+            // create the dom elements that represent our board
+            displayController.buildBoardDisplay();
+            // 
+        }
     };
 })();
 
