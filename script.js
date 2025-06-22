@@ -3,18 +3,9 @@ const log = console.log;
 
 const gameBoard = (function () {
     // createBoard() - reads the board array and displays board
-    const rows = 3;
-    const columns = 3;
-    const board = [];
-
-    // create the board
-    for (let i = 0; i < rows; i++) {
-        // the row elements will be arrays
-        board[i] = [];
-        for (let j = 0; j < columns; j++) {
-            board[i].push("_");
-        }
-    }
+    const ROWS = 3;
+    const COLUMNS = 3;
+    let board = [];
 
     function convertCell(cell) {
         // convert cellID into coordinates
@@ -42,6 +33,16 @@ const gameBoard = (function () {
 
     // public methods
     return {
+        regenerateBoard: () => {
+            board = [];
+            for (let i = 0; i < ROWS; i++) {
+                // the row elements will be arrays
+                board[i] = [];
+                for (let j = 0; j < COLUMNS; j++) {
+                    board[i].push("_");
+                }
+            }
+        },
         printBoard: function () {
             log("Current Board:")
             for (let row of board) {
@@ -57,8 +58,6 @@ const gameBoard = (function () {
         },
         placeMark: (cell, mark) => {
             const [row, col] = convertCell(cell);
-            // log(row);
-            // log(col);
             board[row][col] = mark;
         },
         isValidLocation: (cell) => {
@@ -136,9 +135,45 @@ const gameBoard = (function () {
                 }
             }
             return false;
+        },
+    }
+})();
+
+const displayController = (function () {
+    // select the board from the dom
+    const boardContainer = document.querySelector('.board');
+
+    // board container event listener listens for clicks
+    boardContainer.addEventListener("click", (e) => {
+        gameFlow.playOneTurn(e.target);
+    });
+    return {
+        swapBoardColor: () => {
+            if (boardContainer.classList.contains('player1-board')) {
+                boardContainer.classList.replace('player1-board', 'player2-board');
+            } else {
+                boardContainer.classList.replace('player2-board', 'player1-board');
+            }
+        },
+        buildBoardDisplay: () => {
+            for (let i = 0; i <= 2; i++) {
+                let cellNum = 1;
+
+                const row = document.createElement('div');
+                boardContainer.appendChild(row);
+                row.classList.add('row');
+
+                for (let j = 1; j <= 3; j++) {
+                    const cell = document.createElement('button');
+                    row.appendChild(cell);
+                    cell.classList.add(cellNum, 'cell');
+                    cellNum++;
+                }
+            }
         }
     }
 })();
+
 
 const createPlayer = function (mark, name) {
     const playerMark = mark;
@@ -155,6 +190,14 @@ const createPlayer = function (mark, name) {
 
 const gameFlow = (function () {
 
+    // private methods
+    function setupGame() {
+        // setup a new, empty board array
+        gameBoard.regenerateBoard();
+        // create the dom elements that represent our board
+        displayController.buildBoardDisplay();
+    }
+
     // create our players
     const player1 = createPlayer("X", "zo");
     const player2 = createPlayer("O", "caz");
@@ -162,6 +205,9 @@ const gameFlow = (function () {
     // declare turns var and activePlayer var
     let turn = 1;
     let activePlayer = player1;
+
+    // start game loop
+    setupGame();
 
     return {
         getActivePlayer: () => {
@@ -228,35 +274,5 @@ const gameFlow = (function () {
     };
 })();
 
-const displayController = (function () {
-
-    // select the board from the dom
-    const boardContainer = document.querySelector('.board');
-
-
-
-    // board container event listener listens for clicks
-    boardContainer.addEventListener("click", (e) => {
-
-        const target = e.target;
-
-        gameFlow.playOneTurn(target);
-
-        // swap board color
-
-
-    });
-    return {
-        swapBoardColor: () => {
-            if (boardContainer.classList.contains('player1-board')) {
-                boardContainer.classList.replace('player1-board', 'player2-board');
-            } else {
-                boardContainer.classList.replace('player2-board', 'player1-board');
-            }
-        },
-    }
-
-
-})();
 
 
