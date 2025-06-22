@@ -15,8 +15,9 @@ body {
 
 /* marks */
 .X {
-    background-color: red;
-    /* background-image: url("https://www.citypng.com/public/uploads/preview/download-close-x-logo-black-icon-png-735811696860369ttmen1kmz6.png"); */
+    /* background-color: red; */
+    background-image: url("https://www.citypng.com/public/uploads/preview/download-close-x-logo-black-icon-png-735811696860369ttmen1kmz6.png");
+    background-size: contain;
 }
 
 .O {
