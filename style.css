@@ -14,14 +14,20 @@ body {
 }
 
 /* marks */
+.X, .O {
+    background-size: cover;
+    background-repeat: no-repeat;
+}
 .X {
-    /* background-color: red; */
-    background-image: url("https://www.citypng.com/public/uploads/preview/download-close-x-logo-black-icon-png-735811696860369ttmen1kmz6.png");
-    background-size: contain;
+    background-color: red;
+    background-image: url('./images/x.png');
+    
 }
 
 .O {
     background-color: blue;
+    background-image: url('./images/o.png');
+
 }
 
 /* board styles */
