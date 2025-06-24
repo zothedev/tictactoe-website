@@ -1,9 +1,6 @@
 // shortcuts
 const log = console.log;
 
-// NEXT UP: GET A GRID LAYOUT GOING AND 
-// ADD A "GAME OVER DISPLAY" UNDER THE BOARD
-
 const gameBoard = (function () {
     const ROWS = 3;
     const COLUMNS = 3;
@@ -168,6 +165,30 @@ const displayController = (function () {
         }
     };
 
+    // change player name
+    let p1ChangeName = document.querySelector('.p1-change-name');
+    let p2ChangeName = document.querySelector('.p2-change-name');
+
+    p1ChangeName.addEventListener('click', () => {
+        let newName = prompt("Enter a new name for the first player: ", "Player 1");
+        gameFlow.getPlayer1().setName(newName);
+
+        // select the player name display
+        let p1NameDisplay = document.querySelector('.p1NameDisplay');
+        p1NameDisplay.textContent = newName;
+    });
+
+    p2ChangeName.addEventListener('click', () => {
+        let newName = prompt("Enter a new name for the second player: ", "Player 2");
+        gameFlow.getPlayer2().setName(newName);
+
+        // select the player name display
+        let p2NameDisplay = document.querySelector('.p2NameDisplay');
+        p2NameDisplay.textContent = newName;
+    });
+    
+    
+
     // board container event listener listens for clicks
     boardContainer.addEventListener("click", (e) => {
 
@@ -220,14 +241,14 @@ const displayController = (function () {
         },
         setGameOverText: (text) => {
             gameOverText.textContent = text;
-        }
+        },
     }
 })();
 
 
 const createPlayer = function (mark, name, num) {
     const playerMark = mark;
-    const playerName = name;
+    let playerName = name;
     const playerNum = num;
     let wins = 0;
 
@@ -246,6 +267,9 @@ const createPlayer = function (mark, name, num) {
         },
         getNum: () => {
             return playerNum;
+        },
+        setName: (name) => {
+            playerName = name;
         }
     }
 };
@@ -255,8 +279,8 @@ const gameFlow = (function () {
     let isGameActive = false;
 
     // create our players
-    const player1 = createPlayer("X", "zo", 1);
-    const player2 = createPlayer("O", "caz", 2);
+    const player1 = createPlayer("X", "Player 1", 1);
+    const player2 = createPlayer("O", "Player 2", 2);
 
     // declare turns var and activePlayer var
     let turn = 1;
@@ -351,7 +375,13 @@ const gameFlow = (function () {
         },
         setIsGameActive: (bool) => {
             isGameActive = bool;
-        }
+        },
+        getPlayer1: () => {
+            return player1;
+        },
+        getPlayer2: () => {
+            return player2;
+        },
     };
 })();
 
