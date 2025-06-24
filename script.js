@@ -143,6 +143,9 @@ const gameBoard = (function () {
 
 const displayController = (function () {
 
+    // grab a reference to our gameOver text
+    let gameOverText = document.querySelector('.gameOverText');
+
     // select the board from the dom
     const boardContainer = document.querySelector('.board');
 
@@ -152,6 +155,18 @@ const displayController = (function () {
         gameFlow.setupGame();
         boardContainer.classList.replace('starting-board', 'player1-board');
     });
+
+    let updatePlayerWinsDisplay = (player) => {
+        let p1Wins = document.querySelector('.p1-wins');
+        let p2Wins = document.querySelector('.p2-wins');
+
+        if (player.getNum() === 1) {
+            p1Wins.textContent = `Wins: ${player.getWins()}`;
+        } else {
+            p2Wins.textContent = `Wins: ${player.getWins()}`;
+
+        }
+    };
 
     // board container event listener listens for clicks
     boardContainer.addEventListener("click", (e) => {
@@ -193,13 +208,29 @@ const displayController = (function () {
         deleteBoardDisplay: () => {
             boardContainer.innerHTML = '';
         },
+        displayWinner: (winningPlayer) => {
+            gameOverText.textContent = `${winningPlayer.getName()} won the game in 
+            ${gameFlow.getTurn()} turns!`;
+            gameFlow.setIsGameActive(false);
+            updatePlayerWinsDisplay(winningPlayer);
+        },
+        displayTie: () => {
+            gameOverText.textContent = `The game ended in a tie!`;
+            gameFlow.setIsGameActive(false);
+        },
+        setGameOverText: (text) => {
+            gameOverText.textContent = text;
+        }
     }
 })();
 
 
-const createPlayer = function (mark, name) {
+const createPlayer = function (mark, name, num) {
     const playerMark = mark;
     const playerName = name;
+    const playerNum = num;
+    let wins = 0;
+
     return {
         getMark: () => {
             return playerMark;
@@ -207,6 +238,15 @@ const createPlayer = function (mark, name) {
         getName: () => {
             return playerName;
         },
+        addWin: () => {
+            wins++;
+        },
+        getWins: () => {
+            return wins;
+        },
+        getNum: () => {
+            return playerNum;
+        }
     }
 };
 
@@ -215,15 +255,12 @@ const gameFlow = (function () {
     let isGameActive = false;
 
     // create our players
-    const player1 = createPlayer("X", "zo");
-    const player2 = createPlayer("O", "caz");
+    const player1 = createPlayer("X", "zo", 1);
+    const player2 = createPlayer("O", "caz", 2);
 
     // declare turns var and activePlayer var
     let turn = 1;
     let activePlayer = player1;
-
-    // grab a reference to our gameOver text
-    let gameOverText = document.querySelector('.gameOverText');
 
     return {
         getActivePlayer: () => {
@@ -244,15 +281,6 @@ const gameFlow = (function () {
         },
         getTurn: () => {
             return turn;
-        },
-        displayWinner: (name) => {
-            gameOverText.textContent = `${name} won the game in ${turn} turns!`;
-            isGameActive = false;
-        },
-        displayTie: () => {
-            gameOverText.textContent = `The game ended in a tie!`;
-            isGameActive = false;
-
         },
         playOneTurn: (target) => {
             // as long as the target element is one of our 9 cells...
@@ -280,12 +308,13 @@ const gameFlow = (function () {
 
                 // if a winner is found
                 if (gameBoard.checkWinner(currentMark)) {
-                    gameFlow.displayWinner(gameFlow.getActivePlayer().getName());
+                    activePlayer.addWin();
+                    displayController.displayWinner(gameFlow.getActivePlayer());
                     return;
                 }
                 // if we've played 9 turns, trigger tie
                 if (gameFlow.getTurn() >= 9) {
-                    gameFlow.displayTie();
+                    displayController.displayTie();
                     return;
                 }
                 // swap active player and continue to next turn
@@ -314,10 +343,14 @@ const gameFlow = (function () {
             isGameActive = true;
 
             // Reset Game Over Text
-            gameOverText.textContent = "Game in progress..."
+            displayController.setGameOverText("Game in progress...");
+
         },
         isGameActive: () => {
             return isGameActive;
+        },
+        setIsGameActive: (bool) => {
+            isGameActive = bool;
         }
     };
 })();
