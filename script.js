@@ -140,8 +140,6 @@ const gameBoard = (function () {
 
 const displayController = (function () {
 
-    let gameOver = false;
-
     // select the board from the dom
     const boardContainer = document.querySelector('.board');
 
@@ -154,8 +152,11 @@ const displayController = (function () {
 
     // board container event listener listens for clicks
     boardContainer.addEventListener("click", (e) => {
+
+
         gameFlow.playOneTurn(e.target);
     });
+
     return {
         swapBoardColor: () => {
             if (boardContainer.classList.contains('player1-board')) {
@@ -184,12 +185,6 @@ const displayController = (function () {
         deleteBoardDisplay: () => {
             boardContainer.innerHTML = '';
         },
-        setGameOver: (bool) => {
-            gameOver = bool;
-        },
-        getGameOver: () => {
-            log(gameOver);
-        },
     }
 })();
 
@@ -208,6 +203,8 @@ const createPlayer = function (mark, name) {
 };
 
 const gameFlow = (function () {
+
+    let isGameActive = false;
 
     // create our players
     const player1 = createPlayer("X", "zo");
@@ -238,11 +235,12 @@ const gameFlow = (function () {
         },
         displayWinner: (name) => {
             log(`${name} has won the match in ${turn} turns!`);
-            displayController.setGameOver(true);
+            isGameActive = false;
         },
         displayTie: () => {
             log(`The match between ${player1.getName()} and ${player2.getName()} has ended in a tie!`);
-            displayController.setGameOver(true);
+            isGameActive = false;
+
         },
         playOneTurn: (target) => {
             // as long as the target element is one of our 9 cells...
@@ -290,7 +288,7 @@ const gameFlow = (function () {
 
             // change active player back to player1
             gameFlow.resetActivePlayer();
-            
+
             // destroy any dom elements living inside of the board container
             displayController.deleteBoardDisplay();
 
@@ -298,7 +296,7 @@ const gameFlow = (function () {
             displayController.buildBoardDisplay();
 
             // mark the game as in-progress
-            displayController.setGameOver(false);
+            isGameActive = true;
 
         }
     };
