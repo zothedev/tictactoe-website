@@ -153,8 +153,10 @@ const displayController = (function () {
     // board container event listener listens for clicks
     boardContainer.addEventListener("click", (e) => {
 
-
-        gameFlow.playOneTurn(e.target);
+        // if the game is active
+        if (gameFlow.isGameActive()) {
+            gameFlow.playOneTurn(e.target);
+        }
     });
 
     return {
@@ -164,6 +166,9 @@ const displayController = (function () {
             } else {
                 boardContainer.classList.replace('player2-board', 'player1-board');
             }
+        },
+        resetBoardColor: () => {
+            boardContainer.classList.value = 'board player1-board';
         },
         buildBoardDisplay: () => {
             let cellNum = 1;
@@ -229,6 +234,7 @@ const gameFlow = (function () {
         },
         resetActivePlayer: () => {
             activePlayer = player1;
+            turn = 1;
         },
         getTurn: () => {
             return turn;
@@ -295,9 +301,14 @@ const gameFlow = (function () {
             // create the dom elements that represent our board
             displayController.buildBoardDisplay();
 
+            // reset board color:
+            displayController.resetBoardColor();
+
             // mark the game as in-progress
             isGameActive = true;
-
+        },
+        isGameActive: () => {
+            return isGameActive;
         }
     };
 })();
