@@ -222,6 +222,9 @@ const gameFlow = (function () {
     let turn = 1;
     let activePlayer = player1;
 
+    // grab a reference to our gameOver text
+    let gameOverText = document.querySelector('.gameOverText');
+
     return {
         getActivePlayer: () => {
             return activePlayer;
@@ -243,11 +246,11 @@ const gameFlow = (function () {
             return turn;
         },
         displayWinner: (name) => {
-            log(`${name} has won the match in ${turn} turns!`);
+            gameOverText.textContent = `${name} won the game in ${turn} turns!`;
             isGameActive = false;
         },
         displayTie: () => {
-            log(`The match between ${player1.getName()} and ${player2.getName()} has ended in a tie!`);
+            gameOverText.textContent = `The game ended in a tie!`;
             isGameActive = false;
 
         },
@@ -309,6 +312,9 @@ const gameFlow = (function () {
 
             // mark the game as in-progress
             isGameActive = true;
+
+            // Reset Game Over Text
+            gameOverText.textContent = "Game in progress..."
         },
         isGameActive: () => {
             return isGameActive;

@@ -126,7 +126,7 @@
     grid-row: 3 / 4;
 }
 
-.p1-wins, .p2-wins, p:last-of-type {
+.p1-wins, .p2-wins, .gameOverText {
     justify-self: center;
     align-items: start;
 
@@ -141,7 +141,9 @@
     grid-row: 4 / 5;
 }
 
-p:last-of-type {
+.gameOverText {
     grid-column: 2 / 3;
     grid-row: 4 / 5;
+
+    align-self: center;
 }
