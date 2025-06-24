@@ -1,6 +1,9 @@
 // shortcuts
 const log = console.log;
 
+// NEXT UP: GET A GRID LAYOUT GOING AND 
+// ADD A "GAME OVER DISPLAY" UNDER THE BOARD
+
 const gameBoard = (function () {
     const ROWS = 3;
     const COLUMNS = 3;
