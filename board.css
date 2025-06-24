@@ -2,17 +2,21 @@
 :root {
     --player1-color: red;
     --player2-color: blue;
+    --secondary-color: rgb(128, 235, 185);
 }
 
 /* board styles */
 .board {
-    width: 400px;
-    height: 400px;
+    width: 500px;
+    height: 500px;
 
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+
+    justify-self: center;
+    align-self: center;
 }
 
 .starting-board {
@@ -31,17 +35,113 @@
     background-color: var(--player2-color);
 }
 .row {
-    /* border: pink 1px solid; */
-
     display: flex;
     flex-direction: row;
     gap: 25px;
 }
 
 .row button {
-    width: 100px;
-    height: 100px;
+    width: 125px;
+    height: 125px;
 
     border: 2px grey solid;
     cursor: pointer;
+}
+
+.btn {
+    width: 200px;
+    height: 50px;
+
+    font-size: 20px;
+
+    background-color: var(--secondary-color);
+}
+
+/* grid styles */
+.grid-container {
+    width: 100vw;
+    height: 100vh;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 3fr 2fr;
+}
+
+.board {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+}
+
+.setup {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+
+    justify-self: center;
+    align-self: center;
+}
+
+.grid-container h1 {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+
+    text-align: center;
+    align-content: end;
+
+    font-size: 80px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.p1name, .p2name {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    font-size: 40px;
+}
+
+.p1name {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+
+.p2name {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+}
+
+.p1-image, .p2-image {
+    border-radius: 50%;
+    justify-self: center;
+    align-self: center;
+}
+
+.p1-image {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+}
+
+.p2-image {
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+}
+
+.p1-wins, .p2-wins, p:last-of-type {
+    justify-self: center;
+    align-items: start;
+
+    font-size: 40px;
+}
+.p1-wins{
+    grid-column: 1 / 2;
+    grid-row: 4 / 5;
+}
+.p2-wins {
+    grid-column: 3 / 4;
+    grid-row: 4 / 5;
+}
+
+p:last-of-type {
+    grid-column: 2 / 3;
+    grid-row: 4 / 5;
 }
