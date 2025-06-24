@@ -103,9 +103,9 @@ const gameBoard = (function () {
             }
 
             // (4-5-6) win check
-            if (board[0][1] === mark) { // 2
+            if (board[1][0] === mark) { // 4
                 if (board[1][1] === mark) { // 5
-                    if (board[2][1] === mark) { // 8
+                    if (board[1][2] === mark) { // 6
                         return true;
                     }
                 }
@@ -139,6 +139,8 @@ const gameBoard = (function () {
 })();
 
 const displayController = (function () {
+
+    let gameOver = false;
 
     // select the board from the dom
     const boardContainer = document.querySelector('.board');
@@ -181,7 +183,13 @@ const displayController = (function () {
         },
         deleteBoardDisplay: () => {
             boardContainer.innerHTML = '';
-        }
+        },
+        setGameOver: (bool) => {
+            gameOver = bool;
+        },
+        getGameOver: () => {
+            log(gameOver);
+        },
     }
 })();
 
@@ -230,9 +238,11 @@ const gameFlow = (function () {
         },
         displayWinner: (name) => {
             log(`${name} has won the match in ${turn} turns!`);
+            displayController.setGameOver(true);
         },
         displayTie: () => {
             log(`The match between ${player1.getName()} and ${player2.getName()} has ended in a tie!`);
+            displayController.setGameOver(true);
         },
         playOneTurn: (target) => {
             // as long as the target element is one of our 9 cells...
@@ -283,8 +293,12 @@ const gameFlow = (function () {
             
             // destroy any dom elements living inside of the board container
             displayController.deleteBoardDisplay();
+
             // create the dom elements that represent our board
             displayController.buildBoardDisplay();
+
+            // mark the game as in-progress
+            displayController.setGameOver(false);
 
         }
     };
