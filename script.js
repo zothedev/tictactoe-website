@@ -2,7 +2,6 @@
 const log = console.log;
 
 const gameBoard = (function () {
-    // createBoard() - reads the board array and displays board
     const ROWS = 3;
     const COLUMNS = 3;
     let board = [];
@@ -164,8 +163,9 @@ const displayController = (function () {
             }
         },
         buildBoardDisplay: () => {
+            let cellNum = 1;
+
             for (let i = 0; i <= 2; i++) {
-                let cellNum = 1;
 
                 const row = document.createElement('div');
                 boardContainer.appendChild(row);
@@ -178,6 +178,9 @@ const displayController = (function () {
                     cellNum++;
                 }
             }
+        },
+        deleteBoardDisplay: () => {
+            boardContainer.innerHTML = '';
         }
     }
 })();
@@ -219,6 +222,9 @@ const gameFlow = (function () {
                 activePlayer = player1;
             }
         },
+        resetActivePlayer: () => {
+            activePlayer = player1;
+        },
         getTurn: () => {
             return turn;
         },
@@ -250,7 +256,7 @@ const gameFlow = (function () {
                 target.classList.add(currentMark);
 
                 // // print the board to the console
-                // gameBoard.printBoard();
+                gameBoard.printBoard();
 
                 // if a winner is found
                 if (gameBoard.checkWinner(currentMark)) {
@@ -271,9 +277,15 @@ const gameFlow = (function () {
         setupGame: () => {
             // setup a new, empty board array
             gameBoard.regenerateBoard();
+
+            // change active player back to player1
+            gameFlow.resetActivePlayer();
+            
+            // destroy any dom elements living inside of the board container
+            displayController.deleteBoardDisplay();
             // create the dom elements that represent our board
             displayController.buildBoardDisplay();
-            // 
+
         }
     };
 })();
