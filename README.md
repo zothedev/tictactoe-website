@@ -10,11 +10,11 @@ code that does not need to be in the global space. This allows these factories t
 instances. Every piece of functionality fits under the gameBoard, gameFlow, player, and displayController objects. 
 This project required me to think logically about where to house each function. 
 
-This game allows for:
-- change player names
-- play multiple rounds
-- win tracker per player
-- current player display
+This game includes:
+- player name change functionality
+- multiple rounds of play
+- win tracker displays for each player
+- current player and game over display, under the board
 
 ## Image Credit
 [Pre-game Image](http://unsplash.com/photos/yellow-and-black-round-cookies-rx_GNopVlFs) - by [Tim Mossholder](https://unsplash.com/@timmossholder)
