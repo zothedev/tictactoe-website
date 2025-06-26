@@ -3,6 +3,8 @@
     --player1-color: red;
     --player2-color: blue;
     --secondary-color: rgb(128, 235, 185);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+
 }
 
 /* board styles */
@@ -49,12 +51,13 @@
 }
 
 .btn {
-    width: 200px;
+    width: 300px;
     height: 50px;
 
-    font-size: 20px;
+    font-size: 24px;
 
     background-color: var(--secondary-color);
+    border: black 3px solid;
 }
 
 /* grid styles */
@@ -103,11 +106,17 @@
 .p1name {
     grid-column: 1 / 2;
     grid-row: 2 / 3;
+
+    border: var(--player1-color) solid 8px;
 }
 
 .p2name {
     grid-column: 3 / 4;
     grid-row: 2 / 3;
+
+        border: var(--player2-color) solid 8px;
+
+
 }
 
 .p1-image, .p2-image {
@@ -119,11 +128,15 @@
 .p1-image {
     grid-column: 1 / 2;
     grid-row: 3 / 4;
+    border: 8px var(--player1-color) solid;
 }
 
 .p2-image {
     grid-column: 3 / 4;
     grid-row: 3 / 4;
+
+    border: 8px var(--player2-color) solid;
+
 }
 
 .p1-wins, .p2-wins, .gameOverText {

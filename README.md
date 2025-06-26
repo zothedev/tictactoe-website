@@ -1,4 +1,25 @@
-# tictactoe-website
+# Tic-Tac-Toe Game
+
+This project shows off my ability to create objects, functions, and manipulate the dom 
+in javascript. Additionally, I displayed the site using CSS Grid and Flexbox. 
+
+This game allows for:
+- change player names
+- play multiple rounds
+- win tracker per player
+- 
+
+
+
+
+
+
+
+
+
+
+
+
 
 img
 http://unsplash.com/photos/yellow-and-black-round-cookies-rx_GNopVlFs

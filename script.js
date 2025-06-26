@@ -298,6 +298,8 @@ const gameFlow = (function () {
             } else {
                 activePlayer = player1;
             }
+            displayController.setGameOverText(`Current Turn: ${activePlayer.getName()}`);
+
         },
         resetActivePlayer: () => {
             activePlayer = player1;
@@ -367,7 +369,7 @@ const gameFlow = (function () {
             isGameActive = true;
 
             // Reset Game Over Text
-            displayController.setGameOverText("Game in progress...");
+            displayController.setGameOverText(`Current Turn: ${activePlayer.getName()}`);
 
         },
         isGameActive: () => {
