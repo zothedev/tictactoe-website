@@ -5,6 +5,11 @@
 This project shows off my ability to create objects, functions, and manipulate the dom 
 in javascript. Additionally, I displayed the site using CSS Grid and Flexbox. 
 
+I used factory functions to organize my code. 3 of my 4 factories were inside an IIFE (module pattern), tucking away
+code that does not need to be in the global space. This allows these factories to not be reused to create additional
+instances. Every piece of functionality fits under the gameBoard, gameFlow, player, and displayController objects. 
+This project required me to think logically about where to house each function. 
+
 This game allows for:
 - change player names
 - play multiple rounds
