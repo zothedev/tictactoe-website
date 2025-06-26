@@ -1,5 +1,7 @@
 # Tic-Tac-Toe Game
 
+**[Click to view website](https://zothedev.github.io/tictactoe-website/)**
+
 This project shows off my ability to create objects, functions, and manipulate the dom 
 in javascript. Additionally, I displayed the site using CSS Grid and Flexbox. 
 
@@ -7,25 +9,14 @@ This game allows for:
 - change player names
 - play multiple rounds
 - win tracker per player
-- 
+- current player display
 
-
-
-
-
-
-
-
-
-
-
-
-
-img
+## Image Credit
+Pre-game Image - by [Tim Mossholder](https://unsplash.com/@timmossholder)
 http://unsplash.com/photos/yellow-and-black-round-cookies-rx_GNopVlFs
 
-p1 cat
+Player 1 Cat In Shades - by [Raoul Droog](https://unsplash.com/@raouldroog)
 https://unsplash.com/photos/russian-blue-cat-wearing-yellow-sunglasses-yMSecCHsIBc
 
-p2 cat
+Player 2 Cat Meowing - by [Jae Park](https://unsplash.com/@jaehunpark)
 https://unsplash.com/photos/brown-tabby-cat-7GX5aICb5i4
