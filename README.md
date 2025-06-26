@@ -17,11 +17,10 @@ This game allows for:
 - current player display
 
 ## Image Credit
-Pre-game Image - by [Tim Mossholder](https://unsplash.com/@timmossholder)
-http://unsplash.com/photos/yellow-and-black-round-cookies-rx_GNopVlFs
+[Pre-game Image](http://unsplash.com/photos/yellow-and-black-round-cookies-rx_GNopVlFs) - by [Tim Mossholder](https://unsplash.com/@timmossholder)
 
-Player 1 Cat In Shades - by [Raoul Droog](https://unsplash.com/@raouldroog)
-https://unsplash.com/photos/russian-blue-cat-wearing-yellow-sunglasses-yMSecCHsIBc
 
-Player 2 Cat Meowing - by [Jae Park](https://unsplash.com/@jaehunpark)
-https://unsplash.com/photos/brown-tabby-cat-7GX5aICb5i4
+[Player 1 Cat In Shades](https://unsplash.com/photos/russian-blue-cat-wearing-yellow-sunglasses-yMSecCHsIBc) - by [Raoul Droog](https://unsplash.com/@raouldroog)
+
+
+[Player 2 Cat Meowing](https://unsplash.com/photos/brown-tabby-cat-7GX5aICb5i4) - by [Jae Park](https://unsplash.com/@jaehunpark)
